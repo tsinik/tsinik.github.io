@@ -86,10 +86,11 @@ input:focus-visible,select:focus-visible,button:focus-visible,a:focus-visible,[t
 .card .bd{padding:14px 16px 16px;display:flex;flex-direction:column;gap:8px;flex:1}
 .meta{font-size:14px;color:var(--mute)}
 .km{display:flex;gap:14px;font-size:15px}
+.card .chips{align-items:center;gap:6px}
 .km b{font-variant-numeric:tabular-nums;white-space:nowrap}
 .acts{display:flex;flex-wrap:wrap;gap:8px;margin-top:auto;padding-top:6px}
-.tag{display:inline-block;font-size:13px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--chip);white-space:nowrap}
-.tag.x{background:color-mix(in srgb,var(--garnet) 85%,transparent);color:var(--gink)}
+.tag{display:inline-flex;align-items:center;line-height:1.4;font-size:13px;font-weight:600;padding:2px 8px;border-radius:6px;background:var(--chip);white-space:nowrap}
+.tag.xino{background:color-mix(in srgb,var(--garnet) 85%,transparent);color:var(--gink)}
 .scroll{overflow-x:auto}
 table{width:100%;border-collapse:collapse}
 th{font-size:14px;font-weight:600;color:var(--mute);text-align:left;padding:8px 10px;border-bottom:2px solid var(--ink);white-space:nowrap}
@@ -273,7 +274,7 @@ let ws=load("wr-w",WD);
 const VIS=WD.visit;
 $("wroutes").innerHTML=ROUTES.map(r=>`<button type="button" class="chip" data-r="${r}"><i style="background:${RC[r]}"></i>${r}</button>`).join("");
 $("wvisit").innerHTML=VIS.map(v=>`<button type="button" class="chip" data-vi="${v}">${v}</button>`).join("");
-const card=w=>{const p=w.photos[0];return `<article class="card"><div class="ph" data-s="${w.slug}" role="button" tabindex="0" aria-label="Λεπτομέρειες για ${esc(w.title)}">${p?`<img src="${p.f}" alt="${esc(w.title)}" loading="lazy">`:""}<span class="rt" style="background:${RC[w.r]}">${w.r}</span></div><div class="bd"><h3>${esc(w.title)}</h3><div class="meta">${esc(w.contact.place||"")}${w.year?" · από το "+w.year:""}</div><div class="km"><span><b>${w.km} km</b></span><span><b>${dur(w.min)}</b> από Θεσσαλονίκη</span></div><div class="chips"><span class="tag">${w.visit}</span>${w.xino?'<span class="tag x">Ξινόμαυρο</span>':""}<span class="tag">${w.wines.length} κρασιά</span></div><div class="acts"><button class="btn sm pri" type="button" data-s="${w.slug}">Λεπτομέρειες</button><a class="btn sm" href="${w.gm}" target="_blank" rel="noopener">Χάρτης</a><a class="btn sm" href="${w.gd}" target="_blank" rel="noopener">Οδηγίες</a></div></div></article>`};
+const card=w=>{const p=w.photos[0];return `<article class="card"><div class="ph" data-s="${w.slug}" role="button" tabindex="0" aria-label="Λεπτομέρειες για ${esc(w.title)}">${p?`<img src="${p.f}" alt="${esc(w.title)}" loading="lazy">`:""}<span class="rt" style="background:${RC[w.r]}">${w.r}</span></div><div class="bd"><h3>${esc(w.title)}</h3><div class="meta">${esc(w.contact.place||"")}${w.year?" · από το "+w.year:""}</div><div class="km"><span><b>${w.km} km</b></span><span><b>${dur(w.min)}</b> από Θεσσαλονίκη</span></div><div class="chips"><span class="tag">${w.visit}</span>${w.xino?'<span class="tag xino">Ξινόμαυρο</span>':""}<span class="tag">${w.wines.length} κρασιά</span></div><div class="acts"><button class="btn sm pri" type="button" data-s="${w.slug}">Λεπτομέρειες</button><a class="btn sm" href="${w.gm}" target="_blank" rel="noopener">Χάρτης</a><a class="btn sm" href="${w.gd}" target="_blank" rel="noopener">Οδηγίες</a></div></div></article>`};
 const renderW=()=>{$("wq").value=ws.q;$("wsort").value=ws.sort;$("wmax").value=ws.max;$("wxino").checked=ws.xino;$("wprice").checked=ws.price;$("wmaxv").textContent=ws.max>=330?"οποιαδήποτε":dur(ws.max);
  document.querySelectorAll("[data-r]").forEach(b=>b.setAttribute("aria-pressed",ws.routes.includes(b.dataset.r)));document.querySelectorAll("[data-vi]").forEach(b=>b.setAttribute("aria-pressed",ws.visit.includes(b.dataset.vi)));
  const q=ws.q.trim().toLowerCase();let L=W.filter(w=>ws.routes.includes(w.r)&&ws.visit.includes(w.visit)&&(ws.max>=330||w.min<=ws.max)&&(!ws.xino||w.xino)&&(!ws.price||w.priced)&&(!q||q.split(/\s+/).every(t=>w.txt.includes(t))));
